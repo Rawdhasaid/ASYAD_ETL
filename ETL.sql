@@ -100,12 +100,15 @@ BEGIN
 
     COMMIT;
 EXCEPTION
-    WHEN dup_val_on_index THEN
-        dbms_output.put_line('The Key Is Duplicated.');
+    WHEN DUP_VAL_ON_INDEX THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('The Key Is Duplicated.');
         RAISE;
+
     WHEN OTHERS THEN
-        dbms_output.put_line(dbms_utility.format_error_stack);
-        dbms_output.put_line(dbms_utility.format_error_backtrace);
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
+        DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
         RAISE;
 END PR_load_mws_fb_branch_dim;
  /
@@ -186,16 +189,19 @@ BEGIN
     COMMIT;
 EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
-        DBMS_OUTPUT.PUT_LINE('THE KEY IS DUPLICATED.');
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('The Key Is Duplicated.');
         RAISE;
+
     WHEN OTHERS THEN
+        ROLLBACK;
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
         RAISE;
 END PR_LOAD_MWS_FB_MEAL_DIM;
 /
  BEGIN
-  LOAD_MWS_FB_MEAL_DIM();
+  PR_LOAD_MWS_FB_MEAL_DIM();
 --rollback; 
 END;
 
@@ -291,9 +297,12 @@ BEGIN
     COMMIT;
 EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
-        DBMS_OUTPUT.PUT_LINE('THE KEY IS DUPLICATED.');
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('The Key Is Duplicated.');
         RAISE;
+
     WHEN OTHERS THEN
+        ROLLBACK;
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
         RAISE;
@@ -302,7 +311,7 @@ END PR_LOAD_MWS_FB_VEHICLE_TYPE_DIM;
  
  ---------------------------
  BEGIN
-  LOAD_MWS_FB_VEHICLE_TYPE_DIM();
+  PR_LOAD_MWS_FB_VEHICLE_TYPE_DIM();
 --rollback; 
 END;
   --###################################################################### 
@@ -492,11 +501,14 @@ SYSDATE,
 SYSDATE
  );
  COMMIT;
- EXCEPTION
+EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
+        ROLLBACK;
         DBMS_OUTPUT.PUT_LINE('The Key Is Duplicated.');
         RAISE;
+
     WHEN OTHERS THEN
+        ROLLBACK;
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
         RAISE;
@@ -505,7 +517,7 @@ SYSDATE
   --------------------------------------
   
  BEGIN
-  LOAD_MWS_FB_ROUT_DIM();
+  PR_LOAD_MWS_FB_ROUT_DIM();
 --rollback; 
 END;
 --######################################################################
@@ -828,6 +840,7 @@ VALUES
         COMMIT;
 EXCEPTION
     WHEN E_UNSTABLE_MERGE THEN
+    ROLLBACK;
         RAISE_APPLICATION_ERROR(
             -20001,
             'CHECK WHETHER THE MERGE SOURCE RETURNS MULTIPLE ROWS FOR A BOOKING_ID.',
@@ -835,6 +848,7 @@ EXCEPTION
         );
 
     WHEN DUP_VAL_ON_INDEX THEN
+    ROLLBACK;
         RAISE_APPLICATION_ERROR(
             -20002,
             'A UNIQUE KEY WAS VIOLATED WHILE LOADING THE SALES FACT.',
@@ -842,6 +856,7 @@ EXCEPTION
         );
 
     WHEN OTHERS THEN
+    ROLLBACK;
         RAISE_APPLICATION_ERROR(
             -20003,
             'LOAD_SALES_FACT FAILED.',
@@ -851,7 +866,7 @@ END PR_LOAD_MWS_FB_SALES_FACT;
 /
 
 BEGIN
-    LOAD_MWS_FB_SALES_FACT();
+    PR_LOAD_MWS_FB_SALES_FACT();
 END;
 /
 
