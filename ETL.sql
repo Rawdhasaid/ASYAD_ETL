@@ -56,7 +56,7 @@ INSERT INTO mws.mws_fb_branch_dim (
  --######################################################################
  
  --CREATEING PROCEDURE 
-CREATE OR REPLACE PROCEDURE mws.load_mws_fb_branch_dim AS
+CREATE OR REPLACE PROCEDURE mws.PR_load_mws_fb_branch_dim AS
 BEGIN
     MERGE INTO mws.mws_fb_branch_dim tgt
     USING (
@@ -107,11 +107,11 @@ EXCEPTION
         dbms_output.put_line(dbms_utility.format_error_stack);
         dbms_output.put_line(dbms_utility.format_error_backtrace);
         RAISE;
-END load_mws_fb_branch_dim;
+END PR_load_mws_fb_branch_dim;
  /
  
  BEGIN
- MWS.LOAD_MWS_FB_BRANCH_DIM;
+ MWS.PR_load_mws_fb_branch_dim;
  END;
  /
 
@@ -147,7 +147,7 @@ INSERT INTO MWS.MWS_FB_MEAL_DIM (
  ------------------------------------------
   --######################################################################
   --CREATE PROCEDURE 
-CREATE OR REPLACE PROCEDURE LOAD_MWS_FB_MEAL_DIM AS
+CREATE OR REPLACE PROCEDURE PR_LOAD_MWS_FB_MEAL_DIM AS
 BEGIN
     MERGE INTO MWS.MWS_FB_MEAL_DIM TGT
     USING (
@@ -192,7 +192,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
         RAISE;
-END LOAD_MWS_FB_MEAL_DIM;
+END PR_LOAD_MWS_FB_MEAL_DIM;
 /
  BEGIN
   LOAD_MWS_FB_MEAL_DIM();
@@ -249,7 +249,7 @@ INSERT INTO MWS.MWS_FB_VEHICLE_TYPE_DIM (
    FROM MWS_FB_VEHICLETYPE_EXT_R;
   --###################################################################### 
  ----------------------------------- 
-CREATE OR REPLACE PROCEDURE LOAD_MWS_FB_VEHICLE_TYPE_DIM AS
+CREATE OR REPLACE PROCEDURE PR_LOAD_MWS_FB_VEHICLE_TYPE_DIM AS
 BEGIN
     MERGE INTO MWS.MWS_FB_VEHICLE_TYPE_DIM TGT
     USING (
@@ -297,7 +297,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
         RAISE;
-END LOAD_MWS_FB_VEHICLE_TYPE_DIM;
+END PR_LOAD_MWS_FB_VEHICLE_TYPE_DIM;
  /
  
  ---------------------------
@@ -395,7 +395,7 @@ SELECT * FROM MWS.MWS_FB_ROUT_DIM where duty_id is null ; -- YES
   FROM  MWS_FB_DUTYMASTER_EXT_R;
  --###################################################################### 
 --CREATE PROCEDURE 
-  create or replace PROCEDURE LOAD_MWS_FB_ROUT_DIM  AS 
+  create or replace PROCEDURE PR_LOAD_MWS_FB_ROUT_DIM  AS 
  BEGIN 
     MERGE INTO MWS.MWS_FB_ROUT_DIM TGT
     USING (
@@ -500,7 +500,7 @@ SYSDATE
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
         DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
         RAISE;
- END LOAD_MWS_FB_ROUT_DIM;
+ END PR_LOAD_MWS_FB_ROUT_DIM;
  /
   --------------------------------------
   
@@ -629,7 +629,7 @@ INSERT INTO mws.mws_fb_sales_fact (
         
 
 --######################################################################
-CREATE OR REPLACE PROCEDURE LOAD_MWS_FB_SALES_FACT AS
+CREATE OR REPLACE PROCEDURE PR_LOAD_MWS_FB_SALES_FACT AS
     e_unstable_merge EXCEPTION;
     PRAGMA EXCEPTION_INIT(e_unstable_merge, -30926);
 BEGIN MERGE INTO mws_fb_sales_fact tgt
@@ -847,7 +847,7 @@ EXCEPTION
             'LOAD_SALES_FACT FAILED.',
             TRUE
         );
-END LOAD_MWS_FB_SALES_FACT;
+END PR_LOAD_MWS_FB_SALES_FACT;
 /
 
 BEGIN
